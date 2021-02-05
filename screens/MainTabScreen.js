@@ -24,7 +24,7 @@ const MainTabScreen = () => (
       component={HomeStackScreen}
       options={{
         tabBarLabel: 'Home',
-        tabBarColor: '#009387',
+        tabBarColor: '#D32F2F',
         tabBarIcon: ({color}) => (
           <Feather name="home" color={color} size={26} />
         ),
@@ -35,7 +35,7 @@ const MainTabScreen = () => (
       component={DetailsStackScreen}
       options={{
         tabBarLabel: 'Updates',
-        tabBarColor: '#1f65ff',
+        tabBarColor: '#D32F2F',
         tabBarIcon: ({color}) => (
           <Feather name="bell" color={color} size={26} />
         ),
@@ -46,7 +46,7 @@ const MainTabScreen = () => (
       component={ProfileScreen}
       options={{
         tabBarLabel: 'Profile',
-        tabBarColor: '#694fad',
+        tabBarColor: '#D32F2F',
         tabBarIcon: ({color}) => (
           <MaterialCommunityIcons name="account" color={color} size={26} />
         ),
@@ -57,7 +57,7 @@ const MainTabScreen = () => (
       component={ExploreScreen}
       options={{
         tabBarLabel: 'Explore',
-        tabBarColor: '#d02860',
+        tabBarColor: '#D32F2F',
         tabBarIcon: ({color}) => (
           <Ionicons name="aperture" color={color} size={26} />
         ),
@@ -72,7 +72,7 @@ const HomeStackScreen = ({navigation}) => (
   <HomeStack.Navigator
     screenOptions={{
       headerStyle: {
-        backgroundColor: '#009387',
+        backgroundColor: '#D32F2F',
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
@@ -83,12 +83,12 @@ const HomeStackScreen = ({navigation}) => (
       name="Home"
       component={HomeScreen}
       options={{
-        title: 'Overview',
+        title: 'PARTICULARS',
         headerLeft: () => (
           <Feather.Button
             name="menu"
             size={25}
-            backgroundColor="#009387"
+            backgroundColor="#D32F2F"
             onPress={() => navigation.openDrawer()}
           />
         ),
@@ -101,7 +101,7 @@ const DetailsStackScreen = ({navigation}) => (
   <DetailsStack.Navigator
     screenOptions={{
       headerStyle: {
-        backgroundColor: '#1f65ff',
+        backgroundColor: '#D32F2F',
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
@@ -116,7 +116,7 @@ const DetailsStackScreen = ({navigation}) => (
           <Feather.Button
             name="menu"
             size={25}
-            backgroundColor="#1f65ff"
+            backgroundColor="#D32F2F"
             onPress={() => navigation.openDrawer()}
           />
         ),
