@@ -34,7 +34,7 @@ const MainTabScreen = () => (
       name="Notifications"
       component={DetailsStackScreen}
       options={{
-        tabBarLabel: 'Updates',
+        tabBarLabel: 'Update',
         tabBarColor: '#D32F2F',
         tabBarIcon: ({color}) => (
           <Feather name="bell" color={color} size={26} />
@@ -109,7 +109,7 @@ const DetailsStackScreen = ({navigation}) => (
       },
     }}>
     <DetailsStack.Screen
-      name="Details"
+      name="Detail"
       component={DetailsScreen}
       options={{
         headerLeft: () => (

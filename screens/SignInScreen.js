@@ -17,8 +17,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import {color} from 'react-native-reanimated';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import auth from '@react-native-firebase/auth';
+import {connect, useDispatch} from 'react-redux';
 
-const SignInScreen = ({navigation}) => {
+const SignInScreen = (props) => {
+  const dispatch = useDispatch();
+
   const [data, setData] = React.useState({
     email: '',
     password: '',
@@ -33,7 +37,7 @@ const SignInScreen = ({navigation}) => {
         email: val,
         check_textInputChange: true,
       });
-      console.log(data.email);
+      // console.log(data.email);
     } else {
       setData({
         ...data,
@@ -45,7 +49,7 @@ const SignInScreen = ({navigation}) => {
 
   const handlePasswordChange = (val) => {
     setData({
-      ...Data,
+      ...data,
       password: val,
     });
   };
@@ -61,6 +65,24 @@ const SignInScreen = ({navigation}) => {
     signIn(username, password);
   };
 
+  const signInHandler = () => {
+    const arr = [data.email, data.password];
+
+    auth()
+      .signInWithEmailAndPassword(data.email, data.password)
+      .then((auth) => {
+        alert('successfully sign in');
+      })
+      .catch((error) => alert(error.message));
+
+    // dispatch({
+    //   type: 'CHANGESTACK',
+    //   payload: {
+    //     userLogin: true,
+    //   },
+    // });
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="#D32F2F" barStyle="ligh-content" />
@@ -71,7 +93,6 @@ const SignInScreen = ({navigation}) => {
         <Text style={styles.text_footer}>Email</Text>
         <View style={styles.action}>
           <FontAwesome name="user-o" color="#05375a" size={20} />
-
           <TextInput
             placeholder="Your Email"
             style={styles.textInput}
@@ -104,10 +125,14 @@ const SignInScreen = ({navigation}) => {
         </View>
         <View style={styles.button}>
           <LinearGradient colors={['#D32F2F', '#D32F2F']} style={styles.signIn}>
-            <Text style={[styles.textSign, {color: '#fff'}]}>Sign In</Text>
+            <Text
+              onPress={() => signInHandler()}
+              style={[styles.textSign, {color: '#fff'}]}>
+              Sign In
+            </Text>
           </LinearGradient>
           <TouchableOpacity
-            onPress={() => navigation.navigate('SignUpScreen')}
+            onPress={() => props.navigation.navigate('SignUpScreen')}
             style={[
               styles.signIn,
               {
@@ -132,7 +157,15 @@ const SignInScreen = ({navigation}) => {
   );
 };
 
-export default SignInScreen;
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+const mapDispatchToProps = (dispatch) => ({});
+
+const connectedComponent = connect(mapStateToProps, mapDispatchToProps);
+
+export default connectedComponent(SignInScreen);
 
 const styles = StyleSheet.create({
   container: {

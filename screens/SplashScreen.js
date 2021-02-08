@@ -30,7 +30,9 @@ const SplashScreen = ({navigation}) => {
       </View>
 
       <Animatable.View style={styles.footer} animation="fadeInUpBig">
-        <Text style={styles.title}>Stay Connected with Everyone!!</Text>
+        <Text style={styles.title}>
+          You dont have to be a Doctor to save life...!!
+        </Text>
         <Text style={styles.text}>Sign-In with account </Text>
         <View style={styles.button}>
           <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}>

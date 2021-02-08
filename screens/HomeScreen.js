@@ -42,7 +42,7 @@ const HomeScreen = ({navigation}) => {
           // resizeMode="contain"
         />
 
-        <TouchableOpacity onPress={() => donorHandler()}>
+        <TouchableOpacity onPress={() => navigation.navigate('Explore')}>
           <Text style={styles.donor__text}>Received Blood</Text>
         </TouchableOpacity>
       </View>

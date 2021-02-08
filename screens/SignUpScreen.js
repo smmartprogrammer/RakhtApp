@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import {useState} from 'react';
 
 import {
   View,
@@ -17,20 +18,37 @@ import LinearGradient from 'react-native-linear-gradient';
 import {color} from 'react-native-reanimated';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {AuthContext} from './AuthProvider';
+import {connect} from 'react-redux';
+import {set_data, changeStack} from '../src/store/action/index';
+import auth from '@react-native-firebase/auth';
+import {useDispatch} from 'react-redux';
 
-const SignInScreen = ({navigation}) => {
+const SignInScreen = (props) => {
+  // console.log(props.user);
+
   const [data, setData] = React.useState({
     email: '',
     password: '',
+    confirmPassword: '',
     check_textInputChange: false,
     secureTextEntry: true,
   });
 
-  const textInputChange = (val) => {};
+  const emailHandler = (val) => {
+    // console.log(val);
+    setData({
+      ...data,
+      email: val,
+    });
+  };
+
+  // password handling functions
 
   const handlePasswordChange = (val) => {
+    // console.log(val);
     setData({
-      ...Data,
+      ...data,
       password: val,
     });
   };
@@ -40,6 +58,36 @@ const SignInScreen = ({navigation}) => {
       ...data,
       secureTextEntry: !data.secureTextEntry,
     });
+  };
+
+  const handleConfirmPass = (val) => {
+    setData({
+      ...data,
+      confirmPassword: val,
+    });
+  };
+  // signup functions
+
+  const signUpUser = () => {
+    let arr = [data.email, data.password, data.confirmPassword];
+    if (data.password === data.confirmPassword) {
+      console.log('password same');
+      // navigation.navigate('Home');
+    } else {
+      console.log('not same');
+    }
+
+    auth()
+      .createUserWithEmailAndPassword(data.email, data.password)
+      .then((auth) => {
+        if (auth) {
+          // history.push('/');
+          console.log('successfully create user');
+          props.navigation.navigate('SignInScreen');
+          autheValue: 'usercreated';
+        }
+      })
+      .catch((error) => alert(error.message));
   };
 
   return (
@@ -57,7 +105,8 @@ const SignInScreen = ({navigation}) => {
             placeholder="Your Email"
             style={styles.textInput}
             autoCapitalize="none"
-            onChangeText={(val) => textInputChange(val)}
+            autoCompleteType="email"
+            onChangeText={(val) => emailHandler(val)}
           />
           {data.check_textInputChange ? (
             <Animatable.View animation="bounceIn">
@@ -93,7 +142,7 @@ const SignInScreen = ({navigation}) => {
             secureTextEntry={data.secureTextEntry ? true : false}
             style={styles.textInput}
             autoCapitalize="none"
-            onChangeText={(val) => handlePasswordChange(val)}
+            onChangeText={(val) => handleConfirmPass(val)}
           />
           <TouchableOpacity onPress={updateSecureTextEntry}>
             {data.secureTextEntry ? (
@@ -107,37 +156,25 @@ const SignInScreen = ({navigation}) => {
           By Signing up you agree to our Terms of services and privacy policy
         </Text>
 
-        <View style={styles.button}>
+        <TouchableOpacity onPress={() => signUpUser()} style={styles.button}>
           <LinearGradient colors={['#D32F2F', '#D32F2F']} style={styles.signIn}>
-            <Text style={[styles.textSign, {color: '#fff'}]}>Sign In</Text>
+            <Text style={[styles.textSign, {color: '#fff'}]}>Sign Up</Text>
           </LinearGradient>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('SignUpScreen')}
-            style={[
-              styles.signIn,
-              {
-                borderColor: '#D32F2F',
-                borderWidth: 1,
-                marginTop: 15,
-              },
-            ]}>
-            <Text
-              style={[
-                styles.textSign,
-                {
-                  color: '#D32F2F',
-                },
-              ]}>
-              Sign Up
-            </Text>
-          </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
       </Animatable.View>
     </View>
   );
 };
 
-export default SignInScreen;
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+const mapDispatchToProps = (dispatch) => ({});
+
+const connectedComponent = connect(mapStateToProps, mapDispatchToProps);
+
+export default connectedComponent(SignInScreen);
 
 const styles = StyleSheet.create({
   container: {
